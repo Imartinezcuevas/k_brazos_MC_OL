@@ -105,25 +105,27 @@ def plot_accumulated_regret(steps: int, regrets: np.ndarray, algorithms: List[Al
     plt.tight_layout()
     plt.show()
 
-def plot_arm_statistics(arms: int, counts: np.ndarray, values: np.ndarray, optimal_arm: int):
+def plot_arm_statistics(arms: int, counts: np.ndarray, values: np.ndarray, optimal_arm: int, algorithms: List[Algorithm]):
     """
-    Genera un histograma que muestra las estadísticas de cada brazo.
+    Genera un histograma que muestra las estadísticas de cada brazo para cada algoritmo.
 
     :param arms: Número de brazos.
     :param counts: Número de veces que se ha seleccionado cada brazo.
     :param values: Recompensa promedio estimada de cada brazo.
     :param optimal_arm: Índice del brazo óptimo.
+    :param algorithms: Lista de instancias de algoritmos comparados.
     """
 
-    plt.figure(figsize=(14, 7))
-    bars = plt.bar(range(arms), values, tick_label=[f'Arm {i+1}\n({counts[i]})' for i in range(arms)], color=['green' if i == optimal_arm else 'blue' for i in range(arms)])
+    for idx, algo in enumerate(algorithms):
+        plt.figure(figsize=(14, 7))
+        bars = plt.bar(range(arms), values[idx], tick_label=[f'Arm {i+1}\n({counts[idx, i]})' for i in range(arms)], color=['green' if i == optimal_arm else 'blue' for i in range(arms)])
 
-    for bar in bars:
-        yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2.0, yval, round(yval, 2), va='bottom')  # va: vertical alignment
+        for bar in bars:
+            yval = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2.0, yval, round(yval, 2), va='bottom')
 
-    plt.xlabel('Brazos', fontsize=14)
-    plt.ylabel('Recompensa Promedio', fontsize=14)
-    plt.title('Estadísticas de los Brazos', fontsize=16)
-    plt.tight_layout()
-    plt.show()
+        plt.xlabel('Brazos', fontsize=14)
+        plt.ylabel('Recompensa Promedio', fontsize=14)
+        plt.title(f'Estadísticas de los Brazos - {get_algorithm_label(algo)}', fontsize=16)
+        plt.tight_layout()
+        plt.show()
