@@ -84,7 +84,7 @@ def plot_optimal_selections(steps: int, optimal_selections: np.ndarray, algorith
     plt.tight_layout()
     plt.show()
 
-def plot_accumulated_regret(steps: int, regrets: np.ndarray, algorithms: List[Algorithm]):
+def plot_regret(steps: int, regret_accumulated: np.ndarray, algorithms: List[Algorithm]):
     """
     Genera la gráfica de Regret Acumulado vs Pasos de Tiempo.
 
@@ -96,7 +96,7 @@ def plot_accumulated_regret(steps: int, regrets: np.ndarray, algorithms: List[Al
     plt.figure(figsize=(14, 7))
     for idx, algo in enumerate(algorithms):
         label = get_algorithm_label(algo)
-        plt.plot(range(steps), regrets[idx], label=label, linewidth=2)
+        plt.plot(range(steps), regret_accumulated[idx], label=label, linewidth=2)
 
     plt.xlabel('Pasos de Tiempo', fontsize=14)
     plt.ylabel('Regret Acumulado', fontsize=14)
@@ -105,7 +105,7 @@ def plot_accumulated_regret(steps: int, regrets: np.ndarray, algorithms: List[Al
     plt.tight_layout()
     plt.show()
 
-def plot_arm_statistics(arms: int, counts: np.ndarray, values: np.ndarray, optimal_arm: int, algorithms: List[Algorithm]):
+def plot_arm_statistics(arms: int, arm_counts: np.ndarray, arm_avg_rewards: np.ndarray, optimal_arm: int, algorithms: List[Algorithm]):
     """
     Genera un histograma que muestra las estadísticas de cada brazo para cada algoritmo.
 
@@ -116,9 +116,12 @@ def plot_arm_statistics(arms: int, counts: np.ndarray, values: np.ndarray, optim
     :param algorithms: Lista de instancias de algoritmos comparados.
     """
 
+    # Creamos un gráfico para cada algoritmo
     for idx, algo in enumerate(algorithms):
         plt.figure(figsize=(14, 7))
-        bars = plt.bar(range(arms), values[idx], tick_label=[f'Arm {i+1}\n({counts[idx, i]})' for i in range(arms)], color=['green' if i == optimal_arm else 'blue' for i in range(arms)])
+
+
+        bars = plt.bar(range(arms), arm_avg_rewards[idx], tick_label=[f'Brazo {i+1}\n({arm_counts[idx, i]})' for i in range(arms)], color=['green' if i == optimal_arm else 'blue' for i in range(arms)])
 
         for bar in bars:
             yval = bar.get_height()
