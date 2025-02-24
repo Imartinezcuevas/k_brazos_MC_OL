@@ -34,7 +34,7 @@ def get_algorithm_label(algo: Algorithm) -> str:
     if isinstance(algo, EpsilonGreedy):
         label += f" (epsilon={algo.epsilon})"
     elif isinstance(algo, Softmax):
-        label += f" (tau={algo.parametro})"
+        label += f" (tau={algo.tau})"
     elif isinstance(algo, UCB1):
         label += ""
     elif isinstance(algo, UCB2):
