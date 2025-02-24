@@ -40,7 +40,7 @@ def get_algorithm_label(algo: Algorithm) -> str:
     elif isinstance(algo, UCB2):
         label += f" (alpha={algo.alpha})"
     elif isinstance(algo, GradientePreferencias):
-        label += f" (alpha={algo.alpha}, initial_preference={algo.values[0]})"
+        label += f" (alpha={algo.alpha}, initial_preference={algo.initial_preference})"
     else:
         raise ValueError("El algoritmo debe ser de la clase Algorithm o una subclase.")
     return label
