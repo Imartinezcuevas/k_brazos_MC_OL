@@ -126,3 +126,26 @@ En la base de exploración de $\epsilon$-greedy se seleccionan los bandidos de m
 En vez de trabajar con el valor esperado, se puede trabajar con una función de preferencia sobre las acciones. Seleccionar de acuerdo a un muestreo a una distribución de probabilidad, pero ahora depende de la función H(a).
 
 $H(a)$ es una preferencia numérica para cada acción a. Se aumenta la preferencia de aquella acción en base al número de veces que se haya seleccionado y las otras disminuyen.
+
+## Distribuciones
+
+### Bernoulli
+LA dsitribución de Bernoulli es una distribuciñon de probabilidad discreta que modela experimentos con dos posibles resultado: éxito (1) o fracaso (0). Se usa cuando un evento ocurre con una probabilidad p y su complemento con probabilidad 1 - p.
+
+Características:
+* Variable aleatoria discreta: solo toma valores 0 o 1.
+* Parametro p (probabilidad de exito):
+    - p es la probabilidad de obtener 1.
+    - 1 - p es la probabilidad de obtener 0.
+* Esperanza: $E[X] = p$
+
+### Binomial
+La distribución binomial modela el número de exitos en n ensayos independientes, cada uno con probabilidad de éxito p. Es una generalización de la distribución de Bernoulli.
+
+Características:
+* Variable aleatoria discreata: puede tomar valores enteros en $[0,n]$.
+* Parámetros:
+    * n: número de ensayos.
+    * p: probabilidad de éxito de cada ensayo.
+* Esperanza: $E[X]=np$
+* Varianza: $Var(X) = np(1-p)$
