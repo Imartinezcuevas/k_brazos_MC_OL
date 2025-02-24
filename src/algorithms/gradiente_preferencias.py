@@ -29,10 +29,11 @@ class GradientePreferencias(Algorithm):
         super().__init__(k)
 
         self.alpha = alpha
+        self.initial_preference = initial_preference
         
         # En lugar de valores, mantenemos preferencias para cada acción
         # Redefinimos values para representar las preferencias H_t(a)
-        self.values = np.ones(k) * initial_preference
+        self.values = np.ones(k) * self.initial_preference
 
         # Probabilidades de selección para cada brazo
         self.probabilities = np.ones(k) / k
