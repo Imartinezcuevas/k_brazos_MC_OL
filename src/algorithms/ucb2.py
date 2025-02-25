@@ -54,14 +54,6 @@ class UCB2(Algorithm):
 
         self.epoch_counts = self.counts.copy() # Actualiza el contador de la época anterior con los conteos actuales
         return chosen_arm, tau # Devolvemos tau para saber cuantas veces tengo que tirar del brazo
-    
-    def update(self, chosen_arm: int, reward: float, tau: int):
-        self.counts[chosen_arm] += tau # Incrementa el conteo del brazo seleccionado por tau
-
-        n = self.counts[chosen_arm]  # Número de veces que el brazo seleccionado ha sido seleccionado
-        value = self.values[chosen_arm]  # Valor actual del brazo seleccionado
-
-        self.values[chosen_arm] = value + (reward - value) / n
 
     def reset(self):
         self.counts = np.zeros(self.k, dtype=int)
