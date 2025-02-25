@@ -65,7 +65,8 @@ class UCB2(Algorithm):
         return chosen_arm # Devolvemos tau para saber cuantas veces tengo que tirar del brazo
 
     def reset(self):
-        super.reset()
+        self.counts = np.zeros(self.k, dtype=int)
+        self.values = np.zeros(self.k, dtype=float)
         self.epoch_counts = np.zeros(self.k, dtype=int)
         self.total_counts = 0
         self.remaining_pulls = 0
