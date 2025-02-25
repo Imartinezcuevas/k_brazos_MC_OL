@@ -41,6 +41,8 @@ class UCB2(Algorithm):
         Selecciona un brazo basado en la política UCB2.
         :return: índice del brazo seleccionado.
         """
+        # Incrementar el número total de pasos
+        self.total_counts += 1
 
         # Si no se ha seleccionado un brazo, seleccionamos cada brazo una vez
         if 0 in self.counts:
@@ -51,7 +53,6 @@ class UCB2(Algorithm):
             return self.current_arm
 
         #Para cada brazo calculamos su valor UCB2
-        print(self.total_counts, self.counts)
         ucb_values = self.values + np.sqrt(((1 + self.alpha) * np.log(self.total_counts / self.counts)) / (2 * self.counts))
         chosen_arm = np.argmax(ucb_values) # Selecciona el brazo con el valor UCB2 más alto
 

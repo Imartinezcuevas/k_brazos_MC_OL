@@ -33,6 +33,8 @@ class UCB1(Algorithm):
         Selecciona un brazo basado en la política UCB1.
         :return: índice del brazo seleccionado.
         """
+        # Incrementar el número total de pasos
+        self.total_counts += 1
 
         # Si no se ha seleccionado un brazo, seleccionamos cada brazo una vez
         if 0 in self.counts:
