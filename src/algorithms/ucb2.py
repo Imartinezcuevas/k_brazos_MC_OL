@@ -33,7 +33,7 @@ class UCB2(Algorithm):
         # En ucb2 necesitamos guardar las epocas de cada brazo
         self.epoch_counts = np.zeros(self.k, dtype=int)
 
-    def select_arm(self) -> int:
+    def select_arm(self):
         """
         Selecciona un brazo basado en la política UCB2.
         :return: índice del brazo seleccionado.
