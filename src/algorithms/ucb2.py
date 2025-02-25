@@ -31,16 +31,7 @@ class UCB2(Algorithm):
         self.total_counts = 0 # Contador de pasos totales (t)
 
         # En ucb2 necesitamos guardar las epocas de cada brazo
-        self.epocas = np.zeros(k, dtype=int)
-
-    def _ka_to_tau(self, ka: int):
-        """
-        Convierte una epoca ka a τ(ka), que es el número de veces que un brazo debe ser jugado en la epoca ka.
-
-        :param ka: Epoca ka.
-        :return τ(ka): Número de veces que un brazo debe ser jugado en la epoca ka.
-        """
-        return int(math.ceil((1 + self.alpha) ** ka))
+        self.epoch_counts = np.zeros(self.k, dtype=int)
 
     def select_arm(self) -> int:
         """
@@ -55,29 +46,27 @@ class UCB2(Algorithm):
             return np.argmin(self.counts)
 
         #Para cada brazo calculamos su valor UCB2
-        ucb_values = np.zeros(self.k)
+        ucb_values = self.values + np.sqrt(((1 + self.alpha) * np.log(self.total_counts / self.counts)) / (2 * self.counts))
+        chosen_arm = np.argmax(ucb_values) # Selecciona el brazo con el valor UCB2 más alto
 
-        for arm in range(self.k):
-            # Calcular el valor ucb2 para este brazo
-            tau_k = self._ka_to_tau(self.epocas[arm])
+        tau = self.epoch_counts[chosen_arm] # Obtiene el número de veces que se seleccionó el brazo en la época anterior
+        if tau == 0:
+            tau = 1 # Si es la primera vez, tau es 1
 
-            # Si el brazo ya ha sido jugado τ(ka) veces, calculamos el valor UCB2
-            # Usamos la formula de clase
-            uk = math.sqrt((1 + self.alpha) * math.log(math.e * self.total_counts / tau_k) / (2 * tau_k))
-            ucb_values[arm] = self.values[arm] + uk
+        self.epoch_counts = self.counts.copy() # Actualiza el contador de la época anterior con los conteos actuales
+        return chosen_arm, tau # Devolvemos tau para saber cuantas veces tengo que tirar del brazo
+    
+    def update(self, chosen_arm: int, reward: float, tau: int):
+        self.counts[chosen_arm] += tau # Incrementa el conteo del brazo seleccionado por tau
+        value = self.values[chosen_arm] # Valor actual del brazo seleccionado
+        self.values[chosen_arm] = value + reward # Actualiza el valor del brazo seleccionado sumandole la recompensa.
 
-        # Seleccionar el brazo con el valor UCB2 más alto
-        chosen_arm = np.argmax(ucb_values)
+    def reset(self):
+        self.counts = np.zeros(self.k, dtype=int)
+        self.values = np.zeros(self.k, dtype=float)
+        self.epoch_counts = np.zeros(self.k, dtype=int)
 
-        # Actualizamos las epocas
-        epoca_actual = self.epocas[chosen_arm]
-        tau_actual = self._ka_to_tau(epoca_actual)
-
-        # Si el brazo ha sido jugado τ(ka) veces, incrementamos la epoca
-        if self.counts[chosen_arm] >= tau_actual:
-            self.epocas[chosen_arm] += 1
-
-        return chosen_arm
+        
 
 
 
