@@ -46,6 +46,7 @@ class UCB2(Algorithm):
             return np.argmin(self.counts), 1
 
         #Para cada brazo calculamos su valor UCB2
+        print(self.total_counts, self.counts)
         ucb_values = self.values + np.sqrt(((1 + self.alpha) * np.log(self.total_counts / self.counts)) / (2 * self.counts))
         chosen_arm = np.argmax(ucb_values) # Selecciona el brazo con el valor UCB2 más alto
 
