@@ -43,7 +43,7 @@ class UCB2(Algorithm):
 
         # Si no se ha seleccionado un brazo, seleccionamos cada brazo una vez
         if 0 in self.counts:
-            return np.argmin(self.counts)
+            return np.argmin(self.counts), 1
 
         #Para cada brazo calculamos su valor UCB2
         ucb_values = self.values + np.sqrt(((1 + self.alpha) * np.log(self.total_counts / self.counts)) / (2 * self.counts))
