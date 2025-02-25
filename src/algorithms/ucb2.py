@@ -33,6 +33,9 @@ class UCB2(Algorithm):
         # En ucb2 necesitamos guardar las epocas de cada brazo
         self.epoch_counts = np.zeros(self.k, dtype=int)
 
+        self.remaining_pulls = 0  # Número de veces restantes para devolver el brazo
+        self.current_arm = None # Brazo seleccionado actualmente
+
     def select_arm(self):
         """
         Selecciona un brazo basado en la política UCB2.
@@ -41,7 +44,11 @@ class UCB2(Algorithm):
 
         # Si no se ha seleccionado un brazo, seleccionamos cada brazo una vez
         if 0 in self.counts:
-            return np.argmin(self.counts), 1
+            return np.argmin(self.counts)
+        
+        if self.remaining_pulls > 0:
+            self.remaining_pulls -= 1
+            return self.current_arm
 
         #Para cada brazo calculamos su valor UCB2
         print(self.total_counts, self.counts)
@@ -53,13 +60,16 @@ class UCB2(Algorithm):
             tau = 1 # Si es la primera vez, tau es 1
 
         self.epoch_counts = self.counts.copy() # Actualiza el contador de la época anterior con los conteos actuales
-        return chosen_arm, tau # Devolvemos tau para saber cuantas veces tengo que tirar del brazo
+        self.current_arm = chosen_arm
+        self.remaining_pulls = tau - 1 # Actualiza el número de veces restantes para devolver el brazo
+        return chosen_arm # Devolvemos tau para saber cuantas veces tengo que tirar del brazo
 
     def reset(self):
-        self.counts = np.zeros(self.k, dtype=int)
-        self.values = np.zeros(self.k, dtype=float)
+        super.reset()
         self.epoch_counts = np.zeros(self.k, dtype=int)
         self.total_counts = 0
+        self.remaining_pulls = 0
+        self.current_arm = None
 
         
 
