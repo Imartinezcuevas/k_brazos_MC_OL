@@ -46,6 +46,9 @@ class UCB1(Algorithm):
 
         return chosen_arm
 
-
+    def reset(self):
+        self.counts = np.zeros(self.k, dtype=int)
+        self.values = np.zeros(self.k, dtype=float)
+        self.total_counts = 0
 
 
