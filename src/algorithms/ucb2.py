@@ -28,6 +28,7 @@ class UCB2(Algorithm):
         """
         super().__init__(k)
         self.alpha = alpha
+        self.total_counts = 0 # Contador de pasos totales (t)
 
         # En ucb2 necesitamos guardar las epocas de cada brazo
         self.epoch_counts = np.zeros(self.k, dtype=int)
@@ -37,8 +38,6 @@ class UCB2(Algorithm):
         Selecciona un brazo basado en la política UCB2.
         :return: índice del brazo seleccionado.
         """
-        # Incrementar el número total de pasos
-        self.total_counts += 1
 
         # Si no se ha seleccionado un brazo, seleccionamos cada brazo una vez
         if 0 in self.counts:
