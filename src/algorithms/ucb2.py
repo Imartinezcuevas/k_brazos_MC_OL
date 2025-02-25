@@ -28,7 +28,6 @@ class UCB2(Algorithm):
         """
         super().__init__(k)
         self.alpha = alpha
-        self.total_counts = 0 # Contador de pasos totales (t)
 
         # En ucb2 necesitamos guardar las epocas de cada brazo
         self.epoch_counts = np.zeros(self.k, dtype=int)
