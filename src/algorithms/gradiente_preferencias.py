@@ -18,7 +18,7 @@ from algorithms.algorithm import Algorithm
 
 class GradientePreferencias(Algorithm):
 
-    def __init__(self, k: int, alpha: float, initial_preference: float):
+    def __init__(self, k: int, alpha: float, initial_preference: float = 1):
         """
         Inicializa el algoritmo Gradiente de Preferencias.
 
